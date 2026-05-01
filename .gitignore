@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Node / Web (web/ subdirectory)
+web/node_modules/
+web/dist/
+web/.manus-logs/
+web/.env
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

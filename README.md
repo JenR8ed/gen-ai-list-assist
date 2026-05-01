@@ -1,30 +1,69 @@
-# AI List Assist: Enterprise-Grade Hybrid Agentic E-commerce Pipeline
+# gen-ai-list-assist
 
-## Overview
-AI List Assist is a high-performance, hybrid agentic pipeline designed for e-commerce automation. It leverages **Gemini 3.1 Pro**, **Space Agent**, and **MCP (Model Context Protocol)** to create a sanitized, local-first execution environment within **WSL2**.
+AI-powered eBay listing assistant — a monorepo containing the Python/Redis MCP agent pipeline and the React/Vite web UI.
 
-This project serves as an educational case study and a production-ready framework for resale automation, featuring deep research integration and automated inventory pivoting.
+## 🌐 Live Web UI
 
-## Core Architecture
-- **Reasoning Engine:** Gemini 3.1 Pro (Deep Research Agent via MCP).
-- **Execution Environment:** Sanitized WSL2 (Ubuntu) instance.
-- **Secret Management:** Doppler CLI (No local `.env` files).
-- **State Management:** Redis Stack for valuation queues and agent states.
-- **Monitoring:** Streamlit-based Review Dashboard and Waterfall Monitor.
+**[https://jenr8ed.github.io/gen-ai-list-assist/](https://jenr8ed.github.io/gen-ai-list-assist/)**
 
-## Key Components
-- `mcp_redis_server.py`: Bridges local state with cloud reasoning via standard I/O.
-- `review_dashboard.py`: Real-time monitoring optimized for mobile (Pixel 9 Pro XL).
-- `waterfall_monitor.py`: Sequential task execution and inventory pivot logic.
-- `deploy_services.sh`: Automated, sanitized deployment script.
-
-## Getting Started
-Refer to the [SOP: Local Instance & Sanitized Antigravity IDE Setup](./SOP_Setup.md) for detailed installation instructions.
-
-## Development Sync
-To stay in sync with the development progress, please refer to:
-- [**ROADMAP.md**](./ROADMAP.md): The Master Tracker for execution phases and task status.
-- [**dev_notebook.md**](./dev_notebook.md): The interactive lab journal for technical notes and source of truth.
+Deployed automatically via GitHub Actions on every push to `main`.
 
 ---
-*Built for the AI Educational Case Study & Operations.*
+
+## 📁 Repository Structure
+
+```
+gen-ai-list-assist/
+├── mcp_redis_server.py      # MCP Redis agent server
+├── review_dashboard.py      # Streamlit review dashboard
+├── waterfall_monitor.py     # Streamlit waterfall monitor
+├── deploy_services.sh       # WSL2 service bootstrap script
+├── ROADMAP.md               # Feature roadmap
+├── SOP_Setup.md             # Setup SOP
+├── dev_notebook.md          # Dev notes
+│
+├── web/                     # React + Vite + TypeScript frontend
+│   ├── client/              # React app source
+│   ├── server/              # Express API (local dev only)
+│   ├── shared/              # Shared types / schema
+│   ├── vite.config.ts       # Vite config (GitHub Pages base path set)
+│   └── package.json
+│
+└── .github/
+    └── workflows/
+        └── deploy.yml       # CI: build web UI → deploy to GitHub Pages
+```
+
+---
+
+## 🚀 Web UI — Local Dev
+
+```bash
+cd web
+pnpm install
+pnpm dev
+```
+
+Requires Node 20+ and pnpm 9+.
+
+---
+
+## 🐍 Python Backend — Local Dev
+
+```bash
+# Start Redis + MCP server + dashboards (WSL2)
+bash deploy_services.sh
+```
+
+See [SOP_Setup.md](./SOP_Setup.md) for full environment setup.
+
+---
+
+## 🔁 CI/CD
+
+The GitHub Actions workflow in `.github/workflows/deploy.yml`:
+1. Installs pnpm deps from `web/`
+2. Runs `pnpm build` (Vite outputs to `web/dist/public`)
+3. Pushes the build to the `gh-pages` branch via `peaceiris/actions-gh-pages`
+
+> **Note:** After the first successful workflow run, go to **Settings → Pages** and set Source to `gh-pages` branch.
