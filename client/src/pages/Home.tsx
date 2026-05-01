@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ExternalLink, Github, Code2, Zap } from "lucide-react";
 import { Link } from "wouter";
+import { TimelineVisualization } from "@/components/TimelineVisualization";
 
 export default function Home() {
   const logs = [
@@ -15,7 +16,9 @@ export default function Home() {
         "waterfall_monitor.py: Execution tracking",
         "deploy_services.sh: Deployment automation",
         "SOP_Setup.md: Environment setup guide"
-      ]
+      ],
+      phase: "setup" as const,
+      phaseLabel: "Phase 1: Setup"
     },
     {
       date: "2026-04-30",
@@ -25,7 +28,33 @@ export default function Home() {
         "ROADMAP.md: Master Tracker for execution phases",
         "README.md: Architecture overview",
         "dev_notebook.md: Interactive lab journal"
-      ]
+      ],
+      phase: "setup" as const,
+      phaseLabel: "Phase 1: Setup"
+    },
+    {
+      date: "2026-05-01",
+      title: "Development Environment Configuration",
+      description: "Set up MCP Redis server and began integration with Gemini 3.1 Pro.",
+      items: [
+        "mcp_redis_server.py: Enhanced with connection pooling",
+        "Doppler CLI: Configured for sanitized secret management",
+        "WSL2 environment: Verified compatibility and performance"
+      ],
+      phase: "development" as const,
+      phaseLabel: "Phase 2: Development"
+    },
+    {
+      date: "2026-05-01",
+      title: "Testing & Quality Assurance",
+      description: "Launched Streamlit dashboard and performed pre-flight sanitization checks.",
+      items: [
+        "review_dashboard.py: Tested on Pixel 9 Pro XL and desktop",
+        "waterfall_monitor.py: Verified logging and performance tracking",
+        "Sanitization protocols: Executed doppler logout and redis-cli flushall"
+      ],
+      phase: "testing" as const,
+      phaseLabel: "Phase 3: Testing"
     }
   ];
 
@@ -131,31 +160,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Technical Logs */}
+      {/* Interactive Timeline */}
       <section className="py-16 md:py-24">
         <div className="container">
-          <h2 className="text-4xl font-bold mb-12 text-foreground">Development Logs</h2>
-          <div className="space-y-8">
-            {logs.map((log, idx) => (
-              <div key={idx} className="timeline-item">
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <span className="text-sm font-semibold text-accent">{log.date}</span>
-                    <h3 className="text-2xl font-bold text-foreground">{log.title}</h3>
-                  </div>
-                  <p className="text-foreground/80">{log.description}</p>
-                  <ul className="space-y-2 ml-4">
-                    {log.items.map((item, i) => (
-                      <li key={i} className="text-muted-foreground flex items-start gap-2">
-                        <span className="text-accent mt-1">•</span>
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
+          <h2 className="text-4xl font-bold mb-12 text-foreground">Development Timeline</h2>
+          <TimelineVisualization entries={logs} />
         </div>
       </section>
 
